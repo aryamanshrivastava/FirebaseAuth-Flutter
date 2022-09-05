@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'auth.dart';
+import 'verify_email.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class MainPage extends StatelessWidget {
               } else if (snapshot.hasError) {
                 return Center(child: Text('Something went Wrong!'));
               } else if (snapshot.hasData) {
-                return HomePage();
+                return VerifyEmailPage();
               } else {
                 return AuthPage();
               }

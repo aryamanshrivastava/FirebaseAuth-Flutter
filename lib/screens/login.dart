@@ -1,9 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/main.dart';
 import 'package:flutter_firebase/screens/utils.dart';
+
+import 'forgotpass.dart';
 
 class LoginWidget extends StatefulWidget {
   final VoidCallback onClickedSignUp;
@@ -24,8 +26,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => 
-  Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.white,
         body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           TextField(
@@ -47,6 +48,16 @@ class _LoginWidgetState extends State<LoginWidget> {
                 'Sign In',
                 style: TextStyle(fontSize: 24),
               )),
+          GestureDetector(
+            child: Text(
+              'Forgot Password',
+              style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  color: Colors.black,
+                  fontSize: 20),
+            ),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPasswordPage(),)),
+          ),
           RichText(
               text: TextSpan(
                   style: TextStyle(color: Colors.black, fontSize: 16),

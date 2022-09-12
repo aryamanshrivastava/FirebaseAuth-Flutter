@@ -34,24 +34,43 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-      ),
-      body: Column(
+      backgroundColor: Colors.black,
+      body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Signed In as',
-            style: TextStyle(fontSize: 16),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Signed In as',
+                style: TextStyle(fontSize: 16, color: Colors.white),
+              ),
+              SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+              Text(
+                user.email!,
+                style: TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.w500, color: Colors.yellow),
+              ),
+              SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+              ElevatedButton(
+                  onPressed: () => FirebaseAuth.instance.signOut(),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    elevation: 10,
+                    primary: Color(0xff9B4BFF),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.08,
+                        vertical: MediaQuery.of(context).size.height * 0.013),
+                  ),
+                  child: Text('Sign Out', style: TextStyle(fontSize: 24)))
+            ],
           ),
-          Text(
-            user.email!,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-          ),
-          ElevatedButton.icon(
-              onPressed: () => FirebaseAuth.instance.signOut(),
-              icon: Icon(Icons.arrow_back, size: 32),
-              label: Text('Sign Out', style: TextStyle(fontSize: 24)))
         ],
       ),
     );

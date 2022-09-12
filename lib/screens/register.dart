@@ -1,21 +1,24 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors
+
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase/main.dart';
-import 'package:flutter_firebase/screens/utils.dart';
 
-import 'forgotpass.dart';
+import '../main.dart';
+import 'utils.dart';
 
-class LoginWidget extends StatefulWidget {
-  final VoidCallback onClickedSignUp;
-  const LoginWidget({Key? key, required this.onClickedSignUp})
+class SignUpWidget extends StatefulWidget {
+  final Function() onClickedSignIn;
+  const SignUpWidget({Key? key, required this.onClickedSignIn})
       : super(key: key);
+
   @override
-  State<LoginWidget> createState() => _LoginWidgetState();
+  State<SignUpWidget> createState() => _SignUpWidgetState();
 }
 
-class _LoginWidgetState extends State<LoginWidget> {
+class _SignUpWidgetState extends State<SignUpWidget> {
+  final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   @override
@@ -26,9 +29,12 @@ class _LoginWidgetState extends State<LoginWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.black,
-        body: Padding(
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Form(
+        key: formKey,
+        child: Padding(
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.03),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -56,8 +62,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                     color: Colors.black,
                   ),
                   hintStyle: TextStyle(fontSize: 18, color: Colors.black38)),
-            ),
-            SizedBox(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (email) =>
+                  email != null && !EmailValidator.validate(email)
+                      ? 'Enter a valid email'
+                      : null,
+            ),SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             TextFormField(
@@ -84,33 +94,15 @@ class _LoginWidgetState extends State<LoginWidget> {
                   ),
                   hintStyle: TextStyle(fontSize: 18, color: Color(0xffC9C9C9))),
               obscureText: true,
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.005,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  child: Text(
-                    'Forgot Password',
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colors.blue,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20),
-                  ),
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ForgotPasswordPage(),
-                  )),
-                ),
-              ],
-            ),
-            SizedBox(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) => value != null && value.length < 6
+                  ? 'Enter min 6 characters'
+                  : null,
+            ),SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             ElevatedButton(
-                onPressed: signIn,
+                onPressed: signUp,
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -122,37 +114,43 @@ class _LoginWidgetState extends State<LoginWidget> {
                       vertical: MediaQuery.of(context).size.height * 0.013),
                 ),
                 child: Text(
-                  'Sign In',
+                  'Sign Up',
                   style: TextStyle(fontSize: 24),
-                )),SizedBox(
+                )),
+                SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             RichText(
                 text: TextSpan(
                     style: TextStyle(color: Colors.white, fontSize: 16),
-                    text: 'No account? ',
+                    text: 'Already have an account? ',
                     children: [
                   TextSpan(
                     recognizer: TapGestureRecognizer()
-                      ..onTap = widget.onClickedSignUp,
-                    text: 'Sign Up',
+                      ..onTap = widget.onClickedSignIn,
+                    text: 'Log In',
                     style: TextStyle(
-                      decoration: TextDecoration.underline,
                       fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline,
                       color: Colors.blue,
                     ),
                   )
                 ])),
           ]),
         ),
-      );
-  Future signIn() async {
+      ),
+    );
+  }
+
+  Future signUp() async {
+    final isValid = formKey.currentState!.validate();
+    if (!isValid) return;
     showDialog(
         context: context,
         barrierDismissible: false,
         builder: ((context) => Center(child: CircularProgressIndicator())));
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
     } on FirebaseAuthException catch (e) {

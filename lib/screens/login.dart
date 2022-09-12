@@ -27,53 +27,121 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.white,
-        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          TextField(
-            controller: emailController,
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(labelText: 'Email'),
-          ),
-          TextField(
-            controller: passwordController,
-            textInputAction: TextInputAction.done,
-            decoration: InputDecoration(labelText: 'Password'),
-            obscureText: true,
-          ),
-          ElevatedButton.icon(
-              onPressed: signIn,
-              icon: Icon(Icons.lock_open, size: 32),
-              label: Text(
-                'Sign In',
-                style: TextStyle(fontSize: 24),
-              )),
-          GestureDetector(
-            child: Text(
-              'Forgot Password',
-              style: TextStyle(
-                  decoration: TextDecoration.underline,
-                  color: Colors.black,
-                  fontSize: 20),
-            ),
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPasswordPage(),)),
-          ),
-          RichText(
-              text: TextSpan(
-                  style: TextStyle(color: Colors.black, fontSize: 16),
-                  text: 'No account?',
-                  children: [
-                TextSpan(
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = widget.onClickedSignUp,
-                  text: 'Sign Up',
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: Colors.blue,
+        backgroundColor: Colors.black,
+        body: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.03),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            TextFormField(
+              keyboardType: TextInputType.emailAddress,
+              controller: emailController,
+              cursorColor: Colors.black,
+              cursorHeight: 18,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
                   ),
-                )
-              ])),
-        ]),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(color: Colors.black, width: 2.0),
+                  ),
+                  hintText: 'Email Id',
+                  prefixIcon: Icon(
+                    Icons.email_outlined,
+                    color: Colors.black,
+                  ),
+                  hintStyle: TextStyle(fontSize: 18, color: Colors.black38)),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+            TextFormField(
+              cursorColor: Colors.black,
+              controller: passwordController,
+              textInputAction: TextInputAction.done,
+              decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(color: Colors.black, width: 2.0),
+                  ),
+                  hintText: 'Password',
+                  prefixIcon: Icon(
+                    Icons.lock_outline,
+                    color: Colors.black,
+                  ),
+                  hintStyle: TextStyle(fontSize: 18, color: Color(0xffC9C9C9))),
+              obscureText: true,
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.005,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  child: Text(
+                    'Forgot Password',
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20),
+                  ),
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ForgotPasswordPage(),
+                  )),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+            ElevatedButton(
+                onPressed: signIn,
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  elevation: 10,
+                  primary: Color(0xff9B4BFF),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.08,
+                      vertical: MediaQuery.of(context).size.height * 0.013),
+                ),
+                child: Text(
+                  'Sign In',
+                  style: TextStyle(fontSize: 24),
+                )),
+            RichText(
+                text: TextSpan(
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    text: 'No account? ',
+                    children: [
+                  TextSpan(
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = widget.onClickedSignUp,
+                    text: 'Sign Up',
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.blue,
+                    ),
+                  )
+                ])),
+          ]),
+        ),
       );
   Future signIn() async {
     showDialog(

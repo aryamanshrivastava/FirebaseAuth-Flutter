@@ -42,8 +42,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
-              height: MediaQuery.of(context).size.height * 0.05,
-            ),
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
                 TextFormField(
                   controller: emailController,
                   cursorColor: Colors.black,
@@ -74,21 +74,22 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       email != null && !EmailValidator.validate(email)
                           ? 'Enter a valid email'
                           : null,
-                ),SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
-            ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
                 ElevatedButton(
                     onPressed: resetPassword,
                     style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  elevation: 10,
-                  primary: Color(0xff9B4BFF),
-                  padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.08,
-                      vertical: MediaQuery.of(context).size.height * 0.013),
-                ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      elevation: 10,
+                      backgroundColor: Color(0xff9B4BFF),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.08,
+                          vertical: MediaQuery.of(context).size.height * 0.013),
+                    ),
                     child: Text(
                       'Reset Password',
                       style: TextStyle(fontSize: 24),

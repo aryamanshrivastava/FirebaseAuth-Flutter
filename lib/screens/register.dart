@@ -108,7 +108,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   elevation: 10,
-                  primary: Color(0xff9B4BFF),
+                  backgroundColor: Color(0xff9B4BFF),
                   padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.08,
                       vertical: MediaQuery.of(context).size.height * 0.013),
